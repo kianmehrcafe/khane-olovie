@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>خانه‌ی الویه</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Vazirmatn", sans-serif;
+    background: #050505;
+    color: white;
+    overflow-x: hidden;
+}
+
+/* BACKGROUND LINES */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -2;
+
+    background:
+        repeating-linear-gradient(
+            135deg,
+            transparent 0px,
+            transparent 85px,
+            rgba(255, 193, 7, 0.055) 86px,
+            transparent 88px
+        ),
+        repeating-linear-gradient(
+            45deg,
+            transparent 0px,
+            transparent 120px,
+            rgba(130,130,130,0.06) 121px,
+            transparent 123px
+        );
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+
+    background:
+        radial-gradient(
+            circle at 20% 20%,
+            rgba(255,193,7,0.08),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 80% 70%,
+            rgba(255,193,7,0.05),
+            transparent 30%
+        );
+}
+
+/* HEADER */
+header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
+    padding: 18px 25px;
+
+    background: rgba(0,0,0,0.82);
+    backdrop-filter: blur(12px);
+
+    border-bottom: 1px solid rgba(255,193,7,0.2);
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    color: #ffc107;
+    font-size: 25px;
+    font-weight: 800;
+}
+
+header a {
+    color: white;
+    text-decoration: none;
+    margin-right: 20px;
+    transition: 0.3s;
+}
+
+header a:hover {
+    color: #ffc107;
+}
+
+/* HERO */
+.hero {
+    min-height: 72vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    padding: 70px 20px;
+}
+
+.hero-content {
+    max-width: 850px;
+    animation: heroIn 1s ease;
+}
+
+.hero h1 {
+    font-size: clamp(45px, 8vw, 90px);
+    color: #ffc107;
+    margin-bottom: 15px;
+
+    text-shadow:
+        0 0 20px rgba(255,193,7,0.25);
+}
+
+.hero p {
+    color: #d0d0d0;
+    font-size: 19px;
+    line-height: 2;
+}
+
+/* SECTION */
+section {
+    padding: 70px 7%;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 38px;
+    margin-bottom: 45px;
+    color: #ffc107;
+}
+
+/* SEARCH */
+.controls {
+    max-width: 850px;
+    margin: 0 auto 50px;
+}
+
+.search {
+    width: 100%;
+    padding: 17px 22px;
+
+    border-radius: 18px;
+    border: 1px solid #333;
+
+    background: #111;
+    color: white;
+
+    outline: none;
+    font-family: inherit;
+    font-size: 16px;
+
+    transition: 0.3s;
+}
+
+.search:focus {
+    border-color: #ffc107;
+    box-shadow: 0 0 20px rgba(255,193,7,0.12);
+}
+
+/* FAVORITES BUTTON */
+.favorite-filter {
+    display: block;
+
+    margin: 15px auto 0;
+
+    padding: 12px 20px;
+
+    border-radius: 14px;
+    border: 1px solid #ffc107;
+
+    background: transparent;
+    color: #ffc107;
+
+    cursor: pointer;
+
+    font-family: inherit;
+    font-size: 15px;
+
+    transition: 0.3s;
+}
+
+.favorite-filter:hover,
+.favorite-filter.active {
+    background: #ffc107;
+    color: black;
+}
+
+/* PRODUCTS */
+.products {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+/* CARD */
+.card {
+    background: rgba(15,15,15,0.92);
+
+    border: 1px solid #292929;
+
+    border-radius: 24px;
+
+    overflow: hidden;
+
+    cursor: pointer;
+
+    opacity: 0;
+
+    transform: translateX(80px);
+
+    transition:
+        opacity 0.8s ease,
+        transform 0.8s ease,
+        border-color 0.3s,
+        box-shadow 0.3s;
+}
+
+.card.right {
+    transform: translateX(-80px);
+}
+
+.card.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.card:hover {
+    border-color: rgba(255,193,7,0.7);
+
+    box-shadow:
+        0 15px 50px rgba(0,0,0,0.5),
+        0 0 30px rgba(255,193,7,0.08);
+
+    transform: translateY(-8px);
+}
+
+/* IMAGE */
+.card-image {
+    width: 100%;
+    height: 230px;
+
+    object-fit: cover;
+
+    display: block;
+
+    background:
+        linear-gradient(
+            135deg,
+            #151515,
+            #252525
+        );
+}
+
+/* CARD CONTENT */
+.card-content {
+    padding: 22px;
+    position: relative;
+}
+
+.card h3 {
+    font-size: 23px;
+    color: #ffc107;
+    margin-bottom: 10px;
+}
+
+.card p {
+    color: #aaa;
+    line-height: 1.9;
+    font-size: 14px;
+}
+
+.rating {
+    margin-top: 14px;
+    color: #ffc107;
+}
+
+/* FAVORITE */
+.favorite {
+    position: absolute;
+
+    top: 18px;
+    left: 18px;
+
+    width: 40px;
+    height: 40px;
+
+    border-radius: 50%;
+
+    border: 1px solid #444;
+
+    background: rgba(0,0,0,0.8);
+
+    color: #aaa;
+
+    cursor: pointer;
+
+    font-size: 19px;
+
+    transition: 0.3s;
+
+    z-index: 5;
+}
+
+.favorite:hover {
+    color: #ffc107;
+    border-color: #ffc107;
+}
+
+.favorite.active {
+    color: #ffc107;
+    border-color: #ffc107;
+}
+
+/* CONTACT */
+.contact {
+    text-align: center;
+
+    background:
+        linear-gradient(
+            rgba(255,193,7,0.035),
+            rgba(255,193,7,0.015)
+        );
+
+    border-top: 1px solid #222;
+    border-bottom: 1px solid #222;
+}
+
+.contact p {
+    margin: 15px 0;
+    color: #ccc;
+    line-height: 2;
+}
+
+.contact a {
+    color: #ffc107;
+    text-decoration: none;
+}
+
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 30px;
+    color: #666;
+}
+
+/* MODAL */
+.modal {
+    position: fixed;
+    inset: 0;
+
+    background: rgba(0,0,0,0.82);
+
+    backdrop-filter: blur(8px);
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    z-index: 5000;
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-box {
+    width: min(600px, 100%);
+
+    background: #111;
+
+    border: 1px solid #ffc107;
+
+    border-radius: 25px;
+
+    padding: 30px;
+
+    position: relative;
+
+    animation: modalIn 0.35s ease;
+}
+
+.close {
+    position: absolute;
+
+    top: 15px;
+    left: 18px;
+
+    border: none;
+    background: none;
+
+    color: #aaa;
+
+    font-size: 28px;
+
+    cursor: pointer;
+}
+
+.close:hover {
+    color: #ffc107;
+}
+
+.modal h2 {
+    color: #ffc107;
+    margin-bottom: 15px;
+}
+
+.modal p {
+    color: #ccc;
+    line-height: 2;
+}
+
+.modal-rating {
+    color: #ffc107;
+    margin-top: 15px;
+    font-size: 18px;
+}
+
+/* ANIMATIONS */
+@keyframes heroIn {
+    from {
+        opacity: 0;
+        transform: translateY(35px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes modalIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* MOBILE */
+@media (max-width: 700px) {
+
+    header {
+        padding: 15px;
+    }
+
+    .logo {
+        font-size: 20px;
+    }
+
+    header nav a {
+        margin-right: 8px;
+        font-size: 13px;
+    }
+
+    .hero {
+        min-height: 60vh;
+    }
+
+    .hero h1 {
+        font-size: 50px;
+    }
+
+    .hero p {
+        font-size: 16px;
+    }
+
+    section {
+        padding: 55px 5%;
+    }
+
+    .section-title {
+        font-size: 30px;
+    }
+
+    .products {
+        grid-template-columns: 1fr;
+    }
+
+    .card-image {
+        height: 220px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        خانه‌ی الویه
+    </div>
+
+    <nav>
+        <a href="#products">محصولات</a>
+        <a href="#contact">تماس</a>
+    </nav>
+
+</header>
+
+
+<!-- HERO -->
+<section class="hero">
+
+    <div class="hero-content">
+
+        <h1>خانه‌ی الویه</h1>
+
+        <p>
+            طعم خوشمزه و متفاوت ساندویچ‌های محبوب
+            <br>
+            با حال‌وهوای ساده و دوست‌داشتنی
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- PRODUCTS -->
+<section id="products">
+
+    <h2 class="section-title">
+        لیست محصولات
+    </h2>
+
+    <div class="controls">
+
+        <input
+            type="text"
+            id="search"
+            class="search"
+            placeholder="جستجوی محصول..."
+        >
+
+        <button
+            id="favoriteFilter"
+            class="favorite-filter"
+        >
+            ⭐ فقط علاقه‌مندی‌ها
+        </button>
+
+    </div>
+
+
+    <div class="products" id="productsGrid">
+
+
+        <!-- OLIVIEH -->
+        <div
+            class="card left"
+            data-name="الویه"
+            data-rating="★★★★★"
+            data-description="ساندویچ الویه با ترکیبی خوشمزه از مرغ، سیب‌زمینی، خیارشور و سس مخصوص."
+        >
+
+            <button class="favorite">
+                ☆
+            </button>
+
+            <img
+                class="card-image"
+                src="https://www.mealsandmemories.com.au/cdn/shop/files/E1fXEvuWQAM3Z31_a35adde7-8449-4324-9f72-b92c254382bb.jpg?v=1756193152&width=1000"
+                alt="الویه"
+                onerror="this.style.display='none'"
+            >
+
+            <div class="card-content">
+
+                <h3>الویه</h3>
+
+                <p>
+                    ساندویچ الویه خوشمزه و محبوب
+                </p>
+
+                <div class="rating">
+                    ★★★★★
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- MARTA -->
+        <div
+            class="card right"
+            data-name="مارتا"
+            data-rating="★★★★☆"
+            data-description="مارتا با حال‌وهوای بندری و کالباس، یک انتخاب متفاوت و خوش‌طعم برای طرفداران ساندویچ‌های گرم."
+        >
+
+            <button class="favorite">
+                ☆
+            </button>
+
+            <img
+                class="card-image"
+                src="https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/itens/176937243069767b0e8def9_75_75.jpeg"
+                alt="مارتا"
+                onerror="this.style.display='none'"
+            >
+
+            <div class="card-content">
+
+                <h3>مارتا</h3>
+
+                <p>
+                    ترکیبی خوشمزه با سبک بندری و کالباس
+                </p>
+
+                <div class="rating">
+                    ★★★★☆
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- BANDARI -->
+        <div
+            class="card left"
+            data-name="بندری"
+            data-rating="★★★★★"
+            data-description="ساندویچ بندری با طعم تند و خوشمزه، مناسب برای طرفداران غذاهای جنوبی."
+        >
+
+            <button class="favorite">
+                ☆
+            </button>
+
+            <img
+                class="card-image"
+                src="https://images.deliveryhero.io/image/talabat/MenuItems/SAUSAGE_BANDARI_IRANIAN_B638605980787196602.jpg"
+                alt="بندری"
+                onerror="this.style.display='none'"
+            >
+
+            <div class="card-content">
+
+                <h3>بندری</h3>
+
+                <p>
+                    طعم تند و جنوبی در یک ساندویچ خوشمزه
+                </p>
+
+                <div class="rating">
+                    ★★★★★
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- CHICKEN MUSHROOM -->
+        <div
+            class="card right"
+            data-name="کالباس قارچ و مرغ"
+            data-rating="★★★★★"
+            data-description="ترکیب کالباس، مرغ و قارچ برای یک ساندویچ خوش‌طعم و متفاوت."
+        >
+
+            <button class="favorite">
+                ☆
+            </button>
+
+            <img
+                class="card-image"
+                src="https://images.deliveryhero.io/image/talabat/MenuItems/%D8%A8%D8%A7%D8%B1%D8%A8%DB%8C%DA%A9%DB%8C%D9%88_%D8%AF%D8%AC%D8%A7%D8%AC639065245875240494.jpg"
+                alt="کالباس قارچ و مرغ"
+                onerror="this.style.display='none'"
+            >
+
+            <div class="card-content">
+
+                <h3>کالباس قارچ و مرغ</h3>
+
+                <p>
+                    ترکیب مرغ و قارچ با طعمی دلچسب
+                </p>
+
+                <div class="rating">
+                    ★★★★★
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- PREMIUM -->
+        <div
+            class="card left"
+            data-name="کالباس ممتاز ۹۰٪ گوشت قرمز"
+            data-rating="★★★★★"
+            data-description="کالباس ممتاز با ۹۰٪ گوشت قرمز، مناسب برای طرفداران طعم گوشت."
+        >
+
+            <button class="favorite">
+                ☆
+            </button>
+
+            <img
+                class="card-image"
+                src="https://cdn.tezolmarket.com/media/products/large/13329776_13105.jpg"
+                alt="کالباس ممتاز ۹۰ درصد گوشت قرمز"
+                onerror="this.style.display='none'"
+            >
+
+            <div class="card-content">
+
+                <h3>کالباس ممتاز ۹۰٪ گوشت قرمز</h3>
+
+                <p>
+                    کالباس با ۹۰٪ گوشت قرمز
+                </p>
+
+                <div class="rating">
+                    ★★★★★
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- DRY -->
+        <div
+            class="card right"
+            data-name="کالباس خشک"
+            data-rating="★★★★☆"
+            data-description="کالباس خشک با طعم خاص و مناسب برای یک ساندویچ ساده و خوشمزه."
+        >
+
+            <button class="favorite">
+                ☆
+            </button>
+
+            <img
+                class="card-image"
+                src="https://vicinitymart.com/cdn/shop/files/Grilled_Mortadella_Sandwich.jpg?v=1746039748"
+                alt="کالباس خشک"
+                onerror="this.style.display='none'"
+            >
+
+            <div class="card-content">
+
+                <h3>کالباس خشک</h3>
+
+                <p>
+                    یک انتخاب ساده و خوشمزه
+                </p>
+
+                <div class="rating">
+                    ★★★★☆
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<!-- CONTACT -->
+<section id="contact" class="contact">
+
+    <h2 class="section-title">
+        تماس با ما
+    </h2>
+
+    <p>
+        📞
+        <a href="tel:09903114899">
+            0990 311 4899
+        </a>
+    </p>
+
+    <p>
+        📍 بندر عباس، بلوار شهدا، به سمت راه آهن،
+        جنب پل خواجو، مغازه خانه الویه
+    </p>
+
+</section>
+
+
+<footer>
+    © ۱۴۰۵ خانه‌ی الویه
+</footer>
+
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+
+    <div class="modal-box">
+
+        <button class="close" id="closeModal">
+            ×
+        </button>
+
+        <h2 id="modalTitle">
+            محصول
+        </h2>
+
+        <p id="modalDescription">
+            توضیحات
+        </p>
+
+        <div
+            class="modal-rating"
+            id="modalRating"
+        >
+            ★★★★★
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   FAVORITES
+========================= */
+
+const favoriteButtons =
+    document.querySelectorAll(".favorite");
+
+let favorites =
+    JSON.parse(
+        localStorage.getItem("oliviehFavorites") || "[]"
+    );
+
+
+function updateFavorites() {
+
+    favoriteButtons.forEach((button) => {
+
+        const card = button.closest(".card");
+
+        const name =
+            card.dataset.name;
+
+        if (favorites.includes(name)) {
+
+            button.classList.add("active");
+
+            button.textContent = "★";
+
+        } else {
+
+            button.classList.remove("active");
+
+            button.textContent = "☆";
+
+        }
+
+    });
+
+    localStorage.setItem(
+        "oliviehFavorites",
+        JSON.stringify(favorites)
+    );
+}
+
+
+favoriteButtons.forEach((button) => {
+
+    button.addEventListener("click", (event) => {
+
+        event.stopPropagation();
+
+        const card =
+            button.closest(".card");
+
+        const name =
+            card.dataset.name;
+
+        if (favorites.includes(name)) {
+
+            favorites =
+                favorites.filter(
+                    item => item !== name
+                );
+
+        } else {
+
+            favorites.push(name);
+
+        }
+
+        updateFavorites();
+
+    });
+
+});
+
+
+updateFavorites();
+
+
+/* =========================
+   SEARCH
+========================= */
+
+const search =
+    document.getElementById("search");
+
+const cards =
+    document.querySelectorAll(".card");
+
+const favoriteFilter =
+    document.getElementById("favoriteFilter");
+
+
+let showingFavorites = false;
+
+
+function filterProducts() {
+
+    const text =
+        search.value.trim().toLowerCase();
+
+    cards.forEach((card) => {
+
+        const name =
+            card.dataset.name.toLowerCase();
+
+        const matchesSearch =
+            name.includes(text);
+
+        const matchesFavorites =
+            !showingFavorites ||
+            favorites.includes(card.dataset.name);
+
+        if (
+            matchesSearch &&
+            matchesFavorites
+        ) {
+
+            card.style.display = "";
+
+        } else {
+
+            card.style.display = "none";
+
+        }
+
+    });
+
+}
+
+
+search.addEventListener(
+    "input",
+    filterProducts
+);
+
+
+favoriteFilter.addEventListener(
+    "click",
+    () => {
+
+        showingFavorites =
+            !showingFavorites;
+
+        favoriteFilter.classList.toggle(
+            "active",
+            showingFavorites
+        );
+
+        filterProducts();
+
+    }
+);
+
+
+/* =========================
+   MODAL
+========================= */
+
+const modal =
+    document.getElementById("modal");
+
+const modalTitle =
+    document.getElementById("modalTitle");
+
+const modalDescription =
+    document.getElementById("modalDescription");
+
+const modalRating =
+    document.getElementById("modalRating");
+
+const closeModal =
+    document.getElementById("closeModal");
+
+
+cards.forEach((card) => {
+
+    card.addEventListener("click", () => {
+
+        modalTitle.textContent =
+            card.dataset.name;
+
+        modalDescription.textContent =
+            card.dataset.description;
+
+        modalRating.textContent =
+            card.dataset.rating;
+
+        modal.classList.add("show");
+
+    });
+
+});
+
+
+closeModal.addEventListener(
+    "click",
+    () => {
+        modal.classList.remove("show");
+    }
+);
+
+
+modal.addEventListener(
+    "click",
+    (event) => {
+
+        if (event.target === modal) {
+
+            modal.classList.remove("show");
+
+        }
+
+    }
+);
+
+
+/* =========================
+   SCROLL ANIMATION
+========================= */
+
+const observer =
+    new IntersectionObserver(
+        (entries) => {
+
+            entries.forEach((entry) => {
+
+                if (entry.isIntersecting) {
+
+                    entry.target.classList.add("show");
+
+                }
+
+            });
+
+        },
+        {
+            threshold: 0.12
+        }
+    );
+
+
+cards.forEach((card) => {
+
+    observer.observe(card);
+
+});
+
+
+</script>
+
+</body>
+</html>
