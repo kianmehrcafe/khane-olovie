@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>خانه‌ی الویه</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Tahoma, Arial, sans-serif;
+    background: #080808;
+    color: white;
+    min-height: 100vh;
+    background-image:
+        linear-gradient(135deg, rgba(255,193,7,.07) 1px, transparent 1px),
+        linear-gradient(45deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 80px 80px;
+}
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(8,8,8,.95);
+    border-bottom: 1px solid rgba(255,193,7,.2);
+    padding: 18px 25px;
+}
+
+.header-content {
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    color: #ffc107;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.phone {
+    color: #ddd;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.phone:hover {
+    color: #ffc107;
+}
+
+.hero {
+    max-width: 1200px;
+    margin: auto;
+    padding: 80px 20px 50px;
+    text-align: center;
+}
+
+.hero h1 {
+    color: #ffc107;
+    font-size: clamp(40px, 8vw, 75px);
+    margin-bottom: 15px;
+}
+
+.hero p {
+    color: #aaa;
+    font-size: 17px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 30px;
+}
+
+.search-box {
+    width: 100%;
+    padding: 15px 20px;
+    border-radius: 15px;
+    border: 1px solid #333;
+    background: #111;
+    color: white;
+    font-family: inherit;
+    font-size: 16px;
+    outline: none;
+    margin-bottom: 20px;
+}
+
+.search-box:focus {
+    border-color: #ffc107;
+}
+
+.categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 35px;
+}
+
+.category-btn {
+    border: 1px solid #333;
+    background: #111;
+    color: #ddd;
+    padding: 11px 18px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: .25s;
+}
+
+.category-btn:hover,
+.category-btn.active {
+    background: #ffc107;
+    color: #000;
+    border-color: #ffc107;
+}
+
+.products {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 18px;
+}
+
+.product-card {
+    background: rgba(17,17,17,.95);
+    border: 1px solid #292929;
+    border-radius: 18px;
+    padding: 24px;
+    min-height: 130px;
+    cursor: pointer;
+
+    opacity: 0;
+    transform: translateX(70px);
+
+    transition:
+        opacity .6s ease,
+        transform .6s ease,
+        border-color .25s,
+        box-shadow .25s;
+}
+
+.product-card:nth-child(even) {
+    transform: translateX(-70px);
+}
+
+.product-card.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.product-card:hover {
+    border-color: #ffc107;
+    box-shadow: 0 10px 35px rgba(255,193,7,.08);
+}
+
+.product-card h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.product-card p {
+    color: #888;
+    font-size: 13px;
+}
+
+.favorite {
+    float: left;
+    font-size: 20px;
+    color: #666;
+}
+
+.favorite.active {
+    color: #ffc107;
+}
+
+.empty {
+    display: none;
+    text-align: center;
+    color: #777;
+    padding: 40px;
+}
+
+.contact {
+    margin: 70px 0 30px;
+    padding: 35px 20px;
+    text-align: center;
+    background: rgba(17,17,17,.9);
+    border: 1px solid #292929;
+    border-radius: 20px;
+}
+
+.contact h2 {
+    color: #ffc107;
+    margin-bottom: 15px;
+}
+
+.contact p {
+    color: #ddd;
+    line-height: 2;
+}
+
+.price-note {
+    margin-top: 20px;
+    color: #ffc107 !important;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.75);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    padding: 20px;
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-box {
+    width: min(500px, 100%);
+    background: #111;
+    border: 1px solid #333;
+    border-radius: 20px;
+    padding: 30px;
+    position: relative;
+}
+
+.modal-box h2 {
+    color: #ffc107;
+    margin-bottom: 15px;
+}
+
+.modal-box p {
+    color: #bbb;
+    line-height: 2;
+}
+
+.close-modal {
+    position: absolute;
+    left: 18px;
+    top: 15px;
+    border: none;
+    background: none;
+    color: #aaa;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.close-modal:hover {
+    color: #ffc107;
+}
+
+@media (max-width: 600px) {
+    header {
+        padding: 15px;
+    }
+
+    .header-content {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .hero {
+        padding: 55px 15px 35px;
+    }
+
+    .hero h1 {
+        font-size: 43px;
+    }
+
+    .products {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="header-content">
+        <div class="logo">خانه‌ی الویه</div>
+
+        <a class="phone" href="tel:09903114899">
+            0990 311 4899
+        </a>
+    </div>
+</header>
+
+<section class="hero">
+    <h1>خانه‌ی الویه</h1>
+    <p>محصولات و مواد غذایی</p>
+</section>
+
+<main class="container">
+
+    <h2 class="section-title">لیست محصولات</h2>
+
+    <input
+        type="text"
+        id="search"
+        class="search-box"
+        placeholder="جستجوی محصول..."
+    >
+
+    <div class="categories">
+
+        <button class="category-btn active" data-category="all">
+            همه
+        </button>
+
+        <button class="category-btn" data-category="products">
+            محصولات
+        </button>
+
+        <button class="category-btn" data-category="kg">
+            کیلویی
+        </button>
+
+        <button class="category-btn" data-category="drinks">
+            نوشابه و نوشیدنی‌ها
+        </button>
+
+        <button class="category-btn" data-category="favorites">
+            علاقه‌مندی‌ها ❤️
+        </button>
+
+    </div>
+
+    <div class="products" id="products">
+
+        <div class="product-card" data-category="products">
+            <span class="favorite">♡</span>
+            <h3>الویه مرغ</h3>
+            <p>محصول خانه‌ی الویه</p>
+        </div>
+
+        <div class="product-card" data-category="products">
+            <span class="favorite">♡</span>
+            <h3>الویه کالباس</h3>
+            <p>محصول خانه‌ی الویه</p>
+        </div>
+
+        <div class="product-card" data-category="products">
+            <span class="favorite">♡</span>
+            <h3>مارتا</h3>
+            <p>محصول خانه‌ی الویه</p>
+        </div>
+
+        <div class="product-card" data-category="products">
+            <span class="favorite">♡</span>
+            <h3>بندری</h3>
+            <p>محصول خانه‌ی الویه</p>
+        </div>
+
+        <div class="product-card" data-category="products">
+            <span class="favorite">♡</span>
+            <h3>کالباس قارچ و مرغ</h3>
+            <p>محصول خانه‌ی الویه</p>
+        </div>
+
+        <div class="product-card" data-category="products">
+            <span class="favorite">♡</span>
+            <h3>کالباس ممتاز ۹۰٪ گوشت قرمز</h3>
+            <p>محصول خانه‌ی الویه</p>
+        </div>
+
+        <div class="product-card" data-category="products">
+            <span class="favorite">♡</span>
+            <h3>کالباس خشک خانواده ۶۰٪</h3>
+            <p>محصول خانه‌ی الویه</p>
+        </div>
+
+        <div class="product-card" data-category="products">
+            <span class="favorite">♡</span>
+            <h3>هات داگ</h3>
+            <p>محصول خانه‌ی الویه</p>
+        </div>
+
+        <div class="product-card" data-category="products">
+            <span class="favorite">♡</span>
+            <h3>هات داگ پنیری</h3>
+            <p>محصول خانه‌ی الویه</p>
+        </div>
+
+        <div class="product-card" data-category="products">
+            <span class="favorite">♡</span>
+            <h3>ناگت</h3>
+            <p>محصول خانه‌ی الویه</p>
+        </div>
+
+        <div class="product-card" data-category="products">
+            <span class="favorite">♡</span>
+            <h3>پنیر ورقه ای</h3>
+            <p>محصول خانه‌ی الویه</p>
+        </div>
+
+        <div class="product-card" data-category="products">
+            <span class="favorite">♡</span>
+            <h3>پنیر پیتزا</h3>
+            <p>محصول خانه‌ی الویه</p>
+        </div>
+
+        <div class="product-card" data-category="products">
+            <span class="favorite">♡</span>
+            <h3>سیب زمینی منجمد نیمه آماده</h3>
+            <p>محصول خانه‌ی الویه</p>
+        </div>
+
+        <div class="product-card" data-category="products">
+            <span class="favorite">♡</span>
+            <h3>فلافل فله ای</h3>
+            <p>محصول خانه‌ی الویه</p>
+        </div>
+
+        <div class="product-card" data-category="products">
+            <span class="favorite">♡</span>
+            <h3>کتلت فله ای</h3>
+            <p>محصول خانه‌ی الویه</p>
+        </div>
+
+        <div class="product-card" data-category="kg">
+            <span class="favorite">♡</span>
+            <h3>ناگت</h3>
+            <p>محصول کیلویی</p>
+        </div>
+
+        <div class="product-card" data-category="kg">
+            <span class="favorite">♡</span>
+            <h3>الویه</h3>
+            <p>محصول کیلویی</p>
+        </div>
+
+        <div class="product-card" data-category="kg">
+            <span class="favorite">♡</span>
+            <h3>بندری</h3>
+            <p>محصول کیلویی</p>
+        </div>
+
+        <div class="product-card" data-category="kg">
+            <span class="favorite">♡</span>
+            <h3>مارتا</h3>
+            <p>محصول کیلویی</p>
+        </div>
+
+        <div class="product-card" data-category="drinks">
+            <span class="favorite">♡</span>
+            <h3>انواع نوشابه‌ها</h3>
+            <p>نوشیدنی</p>
+        </div>
+
+        <div class="product-card" data-category="drinks">
+            <span class="favorite">♡</span>
+            <h3>نوشیدنی‌های انرژی‌زا</h3>
+            <p>نوشیدنی</p>
+        </div>
+
+        <div class="product-card" data-category="drinks">
+            <span class="favorite">♡</span>
+            <h3>آبمیوه‌ها</h3>
+            <p>نوشیدنی</p>
+        </div>
+
+        <div class="product-card" data-category="drinks">
+            <span class="favorite">♡</span>
+            <h3>انواع دلسترها</h3>
+            <p>نوشیدنی</p>
+        </div>
+
+    </div>
+
+    <div class="empty" id="empty">
+        محصولی پیدا نشد.
+    </div>
+
+    <section class="contact">
+
+        <h2>تماس با ما</h2>
+
+        <p>
+            بندر عباس، بلوار شهدا، به سمت راه آهن،
+            جنب پل خواجو، مغازه خانه الویه
+        </p>
+
+        <p>
+            📞 0990 311 4899
+        </p>
+
+        <p class="price-note">
+            برای قیمت ها با شماره ی 0990 311 4899 تماس بگیرید
+        </p>
+
+    </section>
+
+</main>
+
+<div class="modal" id="modal">
+
+    <div class="modal-box">
+
+        <button class="close-modal" id="closeModal">×</button>
+
+        <h2 id="modalTitle"></h2>
+
+        <p id="modalDescription"></p>
+
+    </div>
+
+</div>
+
+<script>
+
+const search = document.getElementById("search");
+const cards = document.querySelectorAll(".product-card");
+const buttons = document.querySelectorAll(".category-btn");
+const empty = document.getElementById("empty");
+
+let currentCategory = "all";
+
+let favorites = JSON.parse(
+    localStorage.getItem("oliviehFavorites") || "[]"
+);
+
+cards.forEach((card, index) => {
+
+    const favorite = card.querySelector(".favorite");
+
+    if (favorites.includes(index)) {
+        favorite.classList.add("active");
+        favorite.textContent = "♥";
+    }
+
+    favorite.addEventListener("click", function(event) {
+
+        event.stopPropagation();
+
+        if (favorites.includes(index)) {
+
+            favorites = favorites.filter(function(i) {
+                return i !== index;
+            });
+
+            favorite.classList.remove("active");
+            favorite.textContent = "♡";
+
+        } else {
+
+            favorites.push(index);
+
+            favorite.classList.add("active");
+            favorite.textContent = "♥";
+        }
+
+        localStorage.setItem(
+            "oliviehFavorites",
+            JSON.stringify(favorites)
+        );
+
+        filterCards();
+    });
+});
+
+function filterCards() {
+
+    const query = search.value.trim().toLowerCase();
+
+    let visible = 0;
+
+    cards.forEach((card, index) => {
+
+        const title =
+            card.querySelector("h3").textContent.toLowerCase();
+
+        const matchesSearch =
+            title.includes(query);
+
+        let matchesCategory = true;
+
+        if (currentCategory === "favorites") {
+
+            matchesCategory =
+                favorites.includes(index);
+
+        } else if (currentCategory !== "all") {
+
+            matchesCategory =
+                card.dataset.category === currentCategory;
+        }
+
+        if (matchesSearch && matchesCategory) {
+
+            card.style.display = "block";
+            visible++;
+
+        } else {
+
+            card.style.display = "none";
+        }
+    });
+
+    empty.style.display =
+        visible === 0 ? "block" : "none";
+
+    observeCards();
+}
+
+search.addEventListener("input", filterCards);
+
+buttons.forEach(function(button) {
+
+    button.addEventListener("click", function() {
+
+        buttons.forEach(function(btn) {
+            btn.classList.remove("active");
+        });
+
+        button.classList.add("active");
+
+        currentCategory =
+            button.dataset.category;
+
+        filterCards();
+    });
+});
+
+const modal = document.getElementById("modal");
+const modalTitle = document.getElementById("modalTitle");
+const modalDescription =
+    document.getElementById("modalDescription");
+
+cards.forEach(function(card) {
+
+    card.addEventListener("click", function() {
+
+        modalTitle.textContent =
+            card.querySelector("h3").textContent;
+
+        modalDescription.textContent =
+            card.querySelector("p").textContent;
+
+        modal.classList.add("show");
+    });
+});
+
+document.getElementById("closeModal")
+    .addEventListener("click", function() {
+
+        modal.classList.remove("show");
+    });
+
+modal.addEventListener("click", function(event) {
+
+    if (event.target === modal) {
+        modal.classList.remove("show");
+    }
+});
+
+function observeCards() {
+
+    const observer =
+        new IntersectionObserver(function(entries) {
+
+            entries.forEach(function(entry) {
+
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("show");
+                }
+
+            });
+
+        }, {
+            threshold: 0.12
+        });
+
+    cards.forEach(function(card) {
+
+        if (card.style.display !== "none") {
+            observer.observe(card);
+        }
+
+    });
+}
+
+observeCards();
+
+</script>
+
+</body>
+</html>
