@@ -1,319 +1,1288 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>خانه‌ی الویه</title>
 
 <style>
+
+/* =========================
+   MAIN SETTINGS
+========================= */
+
+:root {
+    --main: #ffc107;
+    --main2: #ff8f00;
+    --bg: #080808;
+    --card: #111;
+    --border: #292929;
+    --text: #ffffff;
+    --muted: #999;
+    --glow: rgba(255,193,7,.25);
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
-body {
-    font-family: Tahoma, Arial, sans-serif;
-    background: #080808;
-    color: white;
-    min-height: 100vh;
-    background-image:
-        linear-gradient(135deg, rgba(255,193,7,.07) 1px, transparent 1px),
-        linear-gradient(45deg, rgba(255,255,255,.03) 1px, transparent 1px);
-    background-size: 80px 80px;
+html {
+    scroll-behavior: smooth;
 }
 
+body {
+
+    font-family: Tahoma, Arial, sans-serif;
+
+    background:
+        radial-gradient(circle at 20% 20%, var(--glow), transparent 25%),
+        radial-gradient(circle at 80% 80%, var(--glow), transparent 25%),
+        var(--bg);
+
+    color: var(--text);
+
+    min-height: 100vh;
+
+    overflow-x: hidden;
+
+    transition:
+        background .5s ease,
+        color .5s ease;
+}
+
+
+/* =========================
+   BACKGROUND
+========================= */
+
+body::before {
+
+    content: "";
+
+    position: fixed;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    background-image:
+        linear-gradient(
+            135deg,
+            color-mix(in srgb, var(--main) 8%, transparent) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            45deg,
+            rgba(255,255,255,.025) 1px,
+            transparent 1px
+        );
+
+    background-size: 80px 80px;
+
+    opacity: .8;
+
+    z-index: -1;
+
+    animation: backgroundMove 20s linear infinite;
+}
+
+@keyframes backgroundMove {
+
+    from {
+        background-position: 0 0, 0 0;
+    }
+
+    to {
+        background-position: 80px 80px, -80px 80px;
+    }
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
 header {
+
     position: sticky;
+
     top: 0;
+
     z-index: 100;
-    background: rgba(8,8,8,.95);
-    border-bottom: 1px solid rgba(255,193,7,.2);
+
+    background: rgba(8,8,8,.88);
+
+    backdrop-filter: blur(15px);
+
+    border-bottom: 1px solid var(--glow);
+
     padding: 18px 25px;
+
+    transition: .3s;
+}
+
+header:hover {
+
+    border-bottom-color: var(--main);
+    box-shadow: 0 5px 30px var(--glow);
 }
 
 .header-content {
+
     max-width: 1200px;
+
     margin: auto;
+
     display: flex;
+
     justify-content: space-between;
+
     align-items: center;
+
+    gap: 20px;
 }
+
+
+/* LOGO */
 
 .logo {
-    color: #ffc107;
+
+    color: var(--main);
+
     font-size: 25px;
+
     font-weight: bold;
+
+    transition: .3s;
+
+    cursor: default;
 }
 
+.logo:hover {
+
+    transform: scale(1.05);
+
+    text-shadow:
+        0 0 10px var(--main),
+        0 0 30px var(--main);
+}
+
+
+/* PHONE */
+
 .phone {
+
     color: #ddd;
+
     text-decoration: none;
-    font-size: 14px;
+
+    font-size: 16px;
+
+    direction: ltr;
+
+    unicode-bidi: isolate;
+
+    display: inline-block;
+
+    padding: 9px 13px;
+
+    border-radius: 10px;
+
+    transition:
+        .25s,
+        transform .15s;
 }
 
 .phone:hover {
-    color: #ffc107;
+
+    color: var(--main);
+
+    background: rgba(255,255,255,.05);
+
+    transform: translateY(-2px);
+
+    text-shadow: 0 0 10px var(--main);
 }
 
+.phone:active {
+
+    transform: scale(.92);
+}
+
+
+/* =========================
+   HERO
+========================= */
+
 .hero {
+
     max-width: 1200px;
+
     margin: auto;
-    padding: 80px 20px 50px;
+
+    padding: 90px 20px 60px;
+
     text-align: center;
+
+    animation: heroIn 1s ease;
+}
+
+@keyframes heroIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .hero h1 {
-    color: #ffc107;
+
+    color: var(--main);
+
     font-size: clamp(40px, 8vw, 75px);
+
     margin-bottom: 15px;
+
+    text-shadow:
+        0 0 15px var(--glow),
+        0 0 40px var(--glow);
+
+    animation: titleGlow 3s ease-in-out infinite;
+}
+
+@keyframes titleGlow {
+
+    0%,100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.025);
+    }
 }
 
 .hero p {
-    color: #aaa;
+
+    color: var(--muted);
+
     font-size: 17px;
+
+    animation: fadeIn 1.5s ease;
 }
 
+@keyframes fadeIn {
+
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+
+/* =========================
+   CONTAINER
+========================= */
+
 .container {
+
     max-width: 1200px;
+
     margin: auto;
+
     padding: 20px;
 }
 
+
+/* =========================
+   SECTION TITLE
+========================= */
+
 .section-title {
+
     text-align: center;
+
     font-size: 32px;
+
     margin-bottom: 30px;
+
+    color: var(--text);
+
+    transition: .3s;
 }
 
+.section-title:hover {
+
+    color: var(--main);
+
+    transform: translateY(-3px);
+}
+
+
+/* =========================
+   SEARCH
+========================= */
+
 .search-box {
+
     width: 100%;
-    padding: 15px 20px;
+
+    padding: 16px 20px;
+
     border-radius: 15px;
-    border: 1px solid #333;
-    background: #111;
+
+    border: 1px solid var(--border);
+
+    background: rgba(17,17,17,.9);
+
     color: white;
+
     font-family: inherit;
+
     font-size: 16px;
+
     outline: none;
+
     margin-bottom: 20px;
+
+    transition:
+        .3s,
+        box-shadow .3s;
 }
 
 .search-box:focus {
-    border-color: #ffc107;
+
+    border-color: var(--main);
+
+    box-shadow:
+        0 0 0 3px var(--glow),
+        0 0 25px var(--glow);
+
+    transform: translateY(-2px);
 }
 
+.search-box::placeholder {
+
+    color: #777;
+}
+
+
+/* =========================
+   CATEGORIES
+========================= */
+
 .categories {
+
     display: flex;
+
     flex-wrap: wrap;
+
     gap: 10px;
+
     justify-content: center;
+
     margin-bottom: 35px;
 }
 
 .category-btn {
-    border: 1px solid #333;
-    background: #111;
+
+    border: 1px solid var(--border);
+
+    background: rgba(17,17,17,.9);
+
     color: #ddd;
+
     padding: 11px 18px;
+
     border-radius: 12px;
+
     cursor: pointer;
+
     font-family: inherit;
-    transition: .25s;
+
+    transition:
+        .25s,
+        transform .15s;
 }
 
-.category-btn:hover,
-.category-btn.active {
-    background: #ffc107;
+.category-btn:hover {
+
+    background: var(--main);
+
     color: #000;
-    border-color: #ffc107;
+
+    border-color: var(--main);
+
+    transform: translateY(-4px);
+
+    box-shadow: 0 8px 20px var(--glow);
 }
+
+.category-btn:active {
+
+    transform: scale(.9);
+}
+
+.category-btn.active {
+
+    background: var(--main);
+
+    color: #000;
+
+    border-color: var(--main);
+
+    box-shadow:
+        0 5px 20px var(--glow);
+}
+
+
+/* =========================
+   PRODUCTS
+========================= */
 
 .products {
+
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(230px, 1fr));
+
     gap: 18px;
 }
 
+
+/* =========================
+   PRODUCT CARD
+========================= */
+
 .product-card {
-    background: rgba(17,17,17,.95);
-    border: 1px solid #292929;
+
+    position: relative;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.04),
+            rgba(255,255,255,.01)
+        );
+
+    border: 1px solid var(--border);
+
     border-radius: 18px;
+
     padding: 24px;
-    min-height: 130px;
+
+    min-height: 145px;
+
     cursor: pointer;
 
     opacity: 0;
-    transform: translateX(70px);
+
+    transform:
+        translateY(40px)
+        scale(.96);
 
     transition:
         opacity .6s ease,
         transform .6s ease,
-        border-color .25s,
-        box-shadow .25s;
+        border-color .3s,
+        box-shadow .3s,
+        background .3s;
 }
 
-.product-card:nth-child(even) {
-    transform: translateX(-70px);
+
+/* CARD LIGHT EFFECT */
+
+.product-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 100px;
+
+    height: 100px;
+
+    border-radius: 50%;
+
+    background: var(--glow);
+
+    filter: blur(35px);
+
+    top: -50px;
+
+    left: -50px;
+
+    opacity: 0;
+
+    transition: .4s;
 }
+
+.product-card:hover::before {
+
+    opacity: 1;
+}
+
+
+/* CARD SHOW */
 
 .product-card.show {
+
     opacity: 1;
-    transform: translateX(0);
+
+    transform:
+        translateY(0)
+        scale(1);
 }
+
+
+/* PC HOVER */
 
 .product-card:hover {
-    border-color: #ffc107;
-    box-shadow: 0 10px 35px rgba(255,193,7,.08);
+
+    border-color: var(--main);
+
+    box-shadow:
+        0 15px 45px var(--glow);
+
+    transform:
+        translateY(-8px)
+        scale(1.02);
 }
+
+
+/* MOBILE TAP */
+
+.product-card:active {
+
+    transform:
+        scale(.96);
+
+    transition: transform .1s;
+}
+
+
+/* CARD TITLE */
 
 .product-card h3 {
+
     font-size: 18px;
+
     margin-bottom: 10px;
+
+    transition: .25s;
 }
+
+.product-card:hover h3 {
+
+    color: var(--main);
+
+    transform: translateX(-4px);
+}
+
+
+/* DESCRIPTION */
 
 .product-card p {
-    color: #888;
+
+    color: var(--muted);
+
     font-size: 13px;
+
+    transition: .25s;
 }
 
+
+/* =========================
+   FAVORITE
+========================= */
+
 .favorite {
+
     float: left;
-    font-size: 20px;
+
+    font-size: 21px;
+
     color: #666;
+
+    transition:
+        .2s,
+        transform .2s;
+
+    position: relative;
+
+    z-index: 5;
+}
+
+.favorite:hover {
+
+    color: var(--main);
+
+    transform: scale(1.25);
+}
+
+.favorite:active {
+
+    transform: scale(.75);
 }
 
 .favorite.active {
-    color: #ffc107;
+
+    color: var(--main);
+
+    animation: heartPop .35s ease;
 }
+
+@keyframes heartPop {
+
+    0% {
+        transform: scale(.5);
+    }
+
+    70% {
+        transform: scale(1.4);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+
+/* =========================
+   EMPTY
+========================= */
 
 .empty {
+
     display: none;
+
     text-align: center;
+
     color: #777;
-    padding: 40px;
+
+    padding: 50px;
+
+    animation: fadeIn .4s ease;
 }
 
+
+/* =========================
+   CONTACT
+========================= */
+
 .contact {
+
     margin: 70px 0 30px;
+
     padding: 35px 20px;
+
     text-align: center;
+
     background: rgba(17,17,17,.9);
-    border: 1px solid #292929;
+
+    border: 1px solid var(--border);
+
     border-radius: 20px;
+
+    transition: .3s;
+}
+
+.contact:hover {
+
+    border-color: var(--main);
+
+    box-shadow:
+        0 15px 40px var(--glow);
+
+    transform: translateY(-5px);
 }
 
 .contact h2 {
-    color: #ffc107;
+
+    color: var(--main);
+
     margin-bottom: 15px;
 }
 
 .contact p {
+
     color: #ddd;
+
     line-height: 2;
+
+    margin: 5px;
+}
+
+.contact-phone {
+
+    display: inline-block;
+
+    color: var(--main);
+
+    text-decoration: none;
+
+    font-size: 20px;
+
+    font-weight: bold;
+
+    direction: ltr;
+
+    unicode-bidi: isolate;
+
+    margin: 10px;
+
+    padding: 8px 15px;
+
+    border-radius: 12px;
+
+    transition: .25s;
+}
+
+.contact-phone:hover {
+
+    background: var(--glow);
+
+    transform: scale(1.05);
+}
+
+.contact-phone:active {
+
+    transform: scale(.92);
 }
 
 .price-note {
+
     margin-top: 20px;
-    color: #ffc107 !important;
+
+    color: var(--main) !important;
+
     font-size: 17px;
+
     font-weight: bold;
 }
 
+
+/* =========================
+   MODAL
+========================= */
+
 .modal {
+
     position: fixed;
+
     inset: 0;
+
     background: rgba(0,0,0,.75);
+
+    backdrop-filter: blur(8px);
+
     display: none;
+
     align-items: center;
+
     justify-content: center;
+
     z-index: 200;
+
     padding: 20px;
 }
 
 .modal.show {
+
     display: flex;
+
+    animation: modalBackground .25s ease;
+}
+
+@keyframes modalBackground {
+
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 .modal-box {
+
     width: min(500px, 100%);
-    background: #111;
-    border: 1px solid #333;
+
+    background:
+        linear-gradient(
+            145deg,
+            #151515,
+            #0c0c0c
+        );
+
+    border: 1px solid var(--main);
+
     border-radius: 20px;
+
     padding: 30px;
+
     position: relative;
+
+    box-shadow:
+        0 20px 70px var(--glow);
+
+    animation: modalIn .35s cubic-bezier(.2,.8,.2,1);
+}
+
+@keyframes modalIn {
+
+    from {
+        opacity: 0;
+        transform:
+            scale(.8)
+            translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform:
+            scale(1)
+            translateY(0);
+    }
 }
 
 .modal-box h2 {
-    color: #ffc107;
+
+    color: var(--main);
+
     margin-bottom: 15px;
 }
 
 .modal-box p {
+
     color: #bbb;
+
     line-height: 2;
 }
 
 .close-modal {
+
     position: absolute;
+
     left: 18px;
+
     top: 15px;
+
     border: none;
+
     background: none;
+
     color: #aaa;
+
     font-size: 25px;
+
     cursor: pointer;
+
+    transition: .2s;
 }
 
 .close-modal:hover {
-    color: #ffc107;
+
+    color: var(--main);
+
+    transform: rotate(90deg) scale(1.2);
 }
 
+.close-modal:active {
+
+    transform: scale(.8);
+}
+
+
+/* =========================
+   THEME BUTTON
+========================= */
+
+.theme-button {
+
+    position: fixed;
+
+    left: 18px;
+
+    bottom: 18px;
+
+    width: 52px;
+
+    height: 52px;
+
+    border-radius: 50%;
+
+    border: 1px solid var(--main);
+
+    background: rgba(15,15,15,.9);
+
+    color: var(--main);
+
+    font-size: 22px;
+
+    cursor: pointer;
+
+    z-index: 150;
+
+    box-shadow:
+        0 5px 25px var(--glow);
+
+    transition: .25s;
+}
+
+.theme-button:hover {
+
+    transform:
+        rotate(20deg)
+        scale(1.1);
+
+    background: var(--main);
+
+    color: #000;
+}
+
+.theme-button:active {
+
+    transform: scale(.85);
+}
+
+
+/* =========================
+   THEME MENU
+========================= */
+
+.theme-menu {
+
+    position: fixed;
+
+    left: 18px;
+
+    bottom: 80px;
+
+    background: rgba(15,15,15,.95);
+
+    backdrop-filter: blur(15px);
+
+    border: 1px solid var(--border);
+
+    border-radius: 18px;
+
+    padding: 12px;
+
+    display: none;
+
+    grid-template-columns:
+        repeat(3, 45px);
+
+    gap: 10px;
+
+    z-index: 150;
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,.5);
+
+    animation: themeIn .25s ease;
+}
+
+.theme-menu.show {
+
+    display: grid;
+}
+
+@keyframes themeIn {
+
+    from {
+        opacity: 0;
+        transform:
+            translateY(15px)
+            scale(.9);
+    }
+
+    to {
+        opacity: 1;
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+.theme {
+
+    width: 45px;
+
+    height: 45px;
+
+    border-radius: 50%;
+
+    border: 2px solid rgba(255,255,255,.15);
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.theme:hover {
+
+    transform: scale(1.15);
+}
+
+.theme:active {
+
+    transform: scale(.85);
+}
+
+
+/* THEME COLORS */
+
+.theme-yellow {
+    background: #ffc107;
+}
+
+.theme-blue {
+    background: #00b7ff;
+}
+
+.theme-purple {
+    background: #a855f7;
+}
+
+.theme-pink {
+    background: #ff4fa3;
+}
+
+.theme-green {
+    background: #22c55e;
+}
+
+.theme-red {
+    background: #ff3b30;
+}
+
+.theme-cyan {
+    background: #00e5ff;
+}
+
+.theme-orange {
+    background: #ff7a00;
+}
+
+.theme-white {
+    background: #ffffff;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
 @media (max-width: 600px) {
+
     header {
+
         padding: 15px;
+
     }
 
     .header-content {
+
         flex-direction: column;
+
         gap: 8px;
+
     }
 
     .hero {
-        padding: 55px 15px 35px;
+
+        padding:
+            55px
+            15px
+            35px;
+
     }
 
     .hero h1 {
+
         font-size: 43px;
+
     }
 
     .products {
+
         grid-template-columns: 1fr;
+
+    }
+
+    .product-card {
+
+        min-height: 130px;
+
+        padding: 22px;
+
+        transition:
+            transform .15s ease,
+            box-shadow .25s,
+            border-color .25s;
+
+    }
+
+    /*
+       MOBILE TAP FEEDBACK
+    */
+
+    .product-card:active {
+
+        transform:
+            scale(.94);
+
+        box-shadow:
+            0 5px 25px var(--glow);
+
+        border-color: var(--main);
+
+    }
+
+    .category-btn {
+
+        padding:
+            12px
+            15px;
+
+    }
+
+    .category-btn:active {
+
+        transform:
+            scale(.9);
+
+    }
+
+    .search-box {
+
+        font-size: 16px;
+
+        padding: 16px;
+
+    }
+
+    .contact {
+
+        margin-top: 50px;
+
+    }
+
+    .theme-button {
+
+        left: 14px;
+
+        bottom: 14px;
+
+    }
+
+    .theme-menu {
+
+        left: 14px;
+
+        bottom: 75px;
+
     }
 }
+
+
+/* =========================
+   REDUCE MOTION
+========================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+
+        animation-duration: .01ms !important;
+
+        animation-iteration-count: 1 !important;
+
+        scroll-behavior: auto !important;
+
+        transition-duration: .01ms !important;
+    }
+}
+
 </style>
+
 </head>
 
 <body>
 
-<header>
-    <div class="header-content">
-        <div class="logo">خانه‌ی الویه</div>
 
-        <a class="phone" href="tel:09903114899">
-            0990 311 4899
+<!-- =========================
+     HEADER
+========================= -->
+
+<header>
+
+    <div class="header-content">
+
+        <div class="logo">
+            خانه‌ی الویه
+        </div>
+
+        <a
+            class="phone"
+            href="tel:09904114899"
+        >
+            0990 411 4899
         </a>
+
     </div>
+
 </header>
 
+
+<!-- =========================
+     HERO
+========================= -->
+
 <section class="hero">
-    <h1>خانه‌ی الویه</h1>
-    <p>محصولات و مواد غذایی</p>
+
+    <h1>
+        خانه‌ی الویه
+    </h1>
+
+    <p>
+        محصولات و مواد غذایی
+    </p>
+
 </section>
+
+
+<!-- =========================
+     MAIN
+========================= -->
 
 <main class="container">
 
-    <h2 class="section-title">لیست محصولات</h2>
+    <h2 class="section-title">
+        لیست محصولات
+    </h2>
+
+
+    <!-- SEARCH -->
 
     <input
         type="text"
@@ -322,202 +1291,618 @@ header {
         placeholder="جستجوی محصول..."
     >
 
+
+    <!-- CATEGORIES -->
+
     <div class="categories">
 
-        <button class="category-btn active" data-category="all">
+        <button
+            class="category-btn active"
+            data-category="all"
+        >
             همه
         </button>
 
-        <button class="category-btn" data-category="products">
+        <button
+            class="category-btn"
+            data-category="products"
+        >
             محصولات
         </button>
 
-        <button class="category-btn" data-category="kg">
+        <button
+            class="category-btn"
+            data-category="kg"
+        >
             کیلویی
         </button>
 
-        <button class="category-btn" data-category="drinks">
+        <button
+            class="category-btn"
+            data-category="drinks"
+        >
             نوشابه و نوشیدنی‌ها
         </button>
 
-        <button class="category-btn" data-category="favorites">
+        <button
+            class="category-btn"
+            data-category="favorites"
+        >
             علاقه‌مندی‌ها ❤️
         </button>
 
     </div>
 
-    <div class="products" id="products">
 
-        <div class="product-card" data-category="products">
-            <span class="favorite">♡</span>
-            <h3>الویه مرغ</h3>
-            <p>محصول خانه‌ی الویه</p>
+    <!-- =========================
+         PRODUCTS
+
+         ADD NEW PRODUCTS HERE
+    ========================= -->
+
+    <div
+        class="products"
+        id="products"
+    >
+
+
+        <!-- PRODUCT -->
+
+        <div
+            class="product-card"
+            data-category="products"
+        >
+
+            <span class="favorite">
+                ♡
+            </span>
+
+            <h3>
+                الویه مرغ
+            </h3>
+
+            <p>
+                محصول خانه‌ی الویه
+            </p>
+
         </div>
 
-        <div class="product-card" data-category="products">
-            <span class="favorite">♡</span>
-            <h3>الویه کالباس</h3>
-            <p>محصول خانه‌ی الویه</p>
+
+        <div
+            class="product-card"
+            data-category="products"
+        >
+
+            <span class="favorite">
+                ♡
+            </span>
+
+            <h3>
+                الویه کالباس
+            </h3>
+
+            <p>
+                محصول خانه‌ی الویه
+            </p>
+
         </div>
 
-        <div class="product-card" data-category="products">
-            <span class="favorite">♡</span>
-            <h3>مارتا</h3>
-            <p>محصول خانه‌ی الویه</p>
+
+        <div
+            class="product-card"
+            data-category="products"
+        >
+
+            <span class="favorite">
+                ♡
+            </span>
+
+            <h3>
+                مارتا
+            </h3>
+
+            <p>
+                محصول خانه‌ی الویه
+            </p>
+
         </div>
 
-        <div class="product-card" data-category="products">
-            <span class="favorite">♡</span>
-            <h3>بندری</h3>
-            <p>محصول خانه‌ی الویه</p>
+
+        <div
+            class="product-card"
+            data-category="products"
+        >
+
+            <span class="favorite">
+                ♡
+            </span>
+
+            <h3>
+                بندری
+            </h3>
+
+            <p>
+                محصول خانه‌ی الویه
+            </p>
+
         </div>
 
-        <div class="product-card" data-category="products">
-            <span class="favorite">♡</span>
-            <h3>کالباس قارچ و مرغ</h3>
-            <p>محصول خانه‌ی الویه</p>
+
+        <div
+            class="product-card"
+            data-category="products"
+        >
+
+            <span class="favorite">
+                ♡
+            </span>
+
+            <h3>
+                کالباس قارچ و مرغ
+            </h3>
+
+            <p>
+                محصول خانه‌ی الویه
+            </p>
+
         </div>
 
-        <div class="product-card" data-category="products">
-            <span class="favorite">♡</span>
-            <h3>کالباس ممتاز ۹۰٪ گوشت قرمز</h3>
-            <p>محصول خانه‌ی الویه</p>
+
+        <div
+            class="product-card"
+            data-category="products"
+        >
+
+            <span class="favorite">
+                ♡
+            </span>
+
+            <h3>
+                کالباس ممتاز ۹۰٪ گوشت قرمز
+            </h3>
+
+            <p>
+                محصول خانه‌ی الویه
+            </p>
+
         </div>
 
-        <div class="product-card" data-category="products">
-            <span class="favorite">♡</span>
-            <h3>کالباس خشک خانواده ۶۰٪</h3>
-            <p>محصول خانه‌ی الویه</p>
+
+        <div
+            class="product-card"
+            data-category="products"
+        >
+
+            <span class="favorite">
+                ♡
+            </span>
+
+            <h3>
+                کالباس خشک خانواده ۶۰٪
+            </h3>
+
+            <p>
+                محصول خانه‌ی الویه
+            </p>
+
         </div>
 
-        <div class="product-card" data-category="products">
-            <span class="favorite">♡</span>
-            <h3>هات داگ</h3>
-            <p>محصول خانه‌ی الویه</p>
+
+        <div
+            class="product-card"
+            data-category="products"
+        >
+
+            <span class="favorite">
+                ♡
+            </span>
+
+            <h3>
+                هات داگ
+            </h3>
+
+            <p>
+                محصول خانه‌ی الویه
+            </p>
+
         </div>
 
-        <div class="product-card" data-category="products">
-            <span class="favorite">♡</span>
-            <h3>هات داگ پنیری</h3>
-            <p>محصول خانه‌ی الویه</p>
+
+        <div
+            class="product-card"
+            data-category="products"
+        >
+
+            <span class="favorite">
+                ♡
+            </span>
+
+            <h3>
+                هات داگ پنیری
+            </h3>
+
+            <p>
+                محصول خانه‌ی الویه
+            </p>
+
         </div>
 
-        <div class="product-card" data-category="products">
-            <span class="favorite">♡</span>
-            <h3>ناگت</h3>
-            <p>محصول خانه‌ی الویه</p>
+
+        <div
+            class="product-card"
+            data-category="products"
+        >
+
+            <span class="favorite">
+                ♡
+            </span>
+
+            <h3>
+                ناگت
+            </h3>
+
+            <p>
+                محصول خانه‌ی الویه
+            </p>
+
         </div>
 
-        <div class="product-card" data-category="products">
-            <span class="favorite">♡</span>
-            <h3>پنیر ورقه ای</h3>
-            <p>محصول خانه‌ی الویه</p>
+
+        <div
+            class="product-card"
+            data-category="products"
+        >
+
+            <span class="favorite">
+                ♡
+            </span>
+
+            <h3>
+                پنیر ورقه ای
+            </h3>
+
+            <p>
+                محصول خانه‌ی الویه
+            </p>
+
         </div>
 
-        <div class="product-card" data-category="products">
-            <span class="favorite">♡</span>
-            <h3>پنیر پیتزا</h3>
-            <p>محصول خانه‌ی الویه</p>
+
+        <div
+            class="product-card"
+            data-category="products"
+        >
+
+            <span class="favorite">
+                ♡
+            </span>
+
+            <h3>
+                پنیر پیتزا
+            </h3>
+
+            <p>
+                محصول خانه‌ی الویه
+            </p>
+
         </div>
 
-        <div class="product-card" data-category="products">
-            <span class="favorite">♡</span>
-            <h3>سیب زمینی منجمد نیمه آماده</h3>
-            <p>محصول خانه‌ی الویه</p>
+
+        <div
+            class="product-card"
+            data-category="products"
+        >
+
+            <span class="favorite">
+                ♡
+            </span>
+
+            <h3>
+                سیب زمینی منجمد نیمه آماده
+            </h3>
+
+            <p>
+                محصول خانه‌ی الویه
+            </p>
+
         </div>
 
-        <div class="product-card" data-category="products">
-            <span class="favorite">♡</span>
-            <h3>فلافل فله ای</h3>
-            <p>محصول خانه‌ی الویه</p>
+
+        <div
+            class="product-card"
+            data-category="products"
+        >
+
+            <span class="favorite">
+                ♡
+            </span>
+
+            <h3>
+                فلافل فله ای
+            </h3>
+
+            <p>
+                محصول خانه‌ی الویه
+            </p>
+
         </div>
 
-        <div class="product-card" data-category="products">
-            <span class="favorite">♡</span>
-            <h3>کتلت فله ای</h3>
-            <p>محصول خانه‌ی الویه</p>
+
+        <div
+            class="product-card"
+            data-category="products"
+        >
+
+            <span class="favorite">
+                ♡
+            </span>
+
+            <h3>
+                کتلت فله ای
+            </h3>
+
+            <p>
+                محصول خانه‌ی الویه
+            </p>
+
         </div>
 
-        <div class="product-card" data-category="kg">
-            <span class="favorite">♡</span>
-            <h3>ناگت</h3>
-            <p>محصول کیلویی</p>
+
+        <!-- KG -->
+
+        <div
+            class="product-card"
+            data-category="kg"
+        >
+
+            <span class="favorite">
+                ♡
+            </span>
+
+            <h3>
+                ناگت
+            </h3>
+
+            <p>
+                محصول کیلویی
+            </p>
+
         </div>
 
-        <div class="product-card" data-category="kg">
-            <span class="favorite">♡</span>
-            <h3>الویه</h3>
-            <p>محصول کیلویی</p>
+
+        <div
+            class="product-card"
+            data-category="kg"
+        >
+
+            <span class="favorite">
+                ♡
+            </span>
+
+            <h3>
+                الویه
+            </h3>
+
+            <p>
+                محصول کیلویی
+            </p>
+
         </div>
 
-        <div class="product-card" data-category="kg">
-            <span class="favorite">♡</span>
-            <h3>بندری</h3>
-            <p>محصول کیلویی</p>
+
+        <div
+            class="product-card"
+            data-category="kg"
+        >
+
+            <span class="favorite">
+                ♡
+            </span>
+
+            <h3>
+                بندری
+            </h3>
+
+            <p>
+                محصول کیلویی
+            </p>
+
         </div>
 
-        <div class="product-card" data-category="kg">
-            <span class="favorite">♡</span>
-            <h3>مارتا</h3>
-            <p>محصول کیلویی</p>
+
+        <div
+            class="product-card"
+            data-category="kg"
+        >
+
+            <span class="favorite">
+                ♡
+            </span>
+
+            <h3>
+                مارتا
+            </h3>
+
+            <p>
+                محصول کیلویی
+            </p>
+
         </div>
 
-        <div class="product-card" data-category="drinks">
-            <span class="favorite">♡</span>
-            <h3>انواع نوشابه‌ها</h3>
-            <p>نوشیدنی</p>
+
+        <!-- DRINKS -->
+
+        <div
+            class="product-card"
+            data-category="drinks"
+        >
+
+            <span class="favorite">
+                ♡
+            </span>
+
+            <h3>
+                انواع نوشابه‌ها
+            </h3>
+
+            <p>
+                نوشیدنی
+            </p>
+
         </div>
 
-        <div class="product-card" data-category="drinks">
-            <span class="favorite">♡</span>
-            <h3>نوشیدنی‌های انرژی‌زا</h3>
-            <p>نوشیدنی</p>
+
+        <div
+            class="product-card"
+            data-category="drinks"
+        >
+
+            <span class="favorite">
+                ♡
+            </span>
+
+            <h3>
+                نوشیدنی‌های انرژی‌زا
+            </h3>
+
+            <p>
+                نوشیدنی
+            </p>
+
         </div>
 
-        <div class="product-card" data-category="drinks">
-            <span class="favorite">♡</span>
-            <h3>آبمیوه‌ها</h3>
-            <p>نوشیدنی</p>
+
+        <div
+            class="product-card"
+            data-category="drinks"
+        >
+
+            <span class="favorite">
+                ♡
+            </span>
+
+            <h3>
+                آبمیوه‌ها
+            </h3>
+
+            <p>
+                نوشیدنی
+            </p>
+
         </div>
 
-        <div class="product-card" data-category="drinks">
-            <span class="favorite">♡</span>
-            <h3>انواع دلسترها</h3>
-            <p>نوشیدنی</p>
+
+        <div
+            class="product-card"
+            data-category="drinks"
+        >
+
+            <span class="favorite">
+                ♡
+            </span>
+
+            <h3>
+                انواع دلسترها
+            </h3>
+
+            <p>
+                نوشیدنی
+            </p>
+
         </div>
+
+
+        <!--
+        ==========================================
+        ADD MORE PRODUCTS HERE
+        ==========================================
+
+        COPY THIS:
+
+        <div
+            class="product-card"
+            data-category="products"
+        >
+
+            <span class="favorite">
+                ♡
+            </span>
+
+            <h3>
+                اسم محصول
+            </h3>
+
+            <p>
+                توضیحات محصول
+            </p>
+
+        </div>
+
+        ==========================================
+        -->
+
 
     </div>
 
-    <div class="empty" id="empty">
+
+    <div
+        class="empty"
+        id="empty"
+    >
         محصولی پیدا نشد.
     </div>
 
+
+    <!-- =========================
+         CONTACT
+    ========================= -->
+
     <section class="contact">
 
-        <h2>تماس با ما</h2>
+        <h2>
+            تماس با ما
+        </h2>
 
         <p>
             بندر عباس، بلوار شهدا، به سمت راه آهن،
             جنب پل خواجو، مغازه خانه الویه
         </p>
 
-        <p>
-            📞 0990 311 4899
-        </p>
+
+        <a
+            class="contact-phone"
+            href="tel:09904114899"
+        >
+            📞 0990 411 4899
+        </a>
+
 
         <p class="price-note">
-            برای قیمت ها با شماره ی 0990 311 4899 تماس بگیرید
+            برای قیمت ها با شماره ی 4899 311 0990 تماس بگیرید
         </p>
 
     </section>
 
 </main>
 
-<div class="modal" id="modal">
+
+<!-- =========================
+     MODAL
+========================= -->
+
+<div
+    class="modal"
+    id="modal"
+>
 
     <div class="modal-box">
 
-        <button class="close-modal" id="closeModal">×</button>
+        <button
+            class="close-modal"
+            id="closeModal"
+        >
+            ×
+        </button>
 
         <h2 id="modalTitle"></h2>
 
@@ -527,178 +1912,615 @@ header {
 
 </div>
 
+
+<!-- =========================
+     THEME BUTTON
+========================= -->
+
+<button
+    class="theme-button"
+    id="themeButton"
+    aria-label="تغییر رنگ"
+>
+    🎨
+</button>
+
+
+<!-- =========================
+     THEME MENU
+========================= -->
+
+<div
+    class="theme-menu"
+    id="themeMenu"
+>
+
+    <button
+        class="theme theme-yellow"
+        data-main="#ffc107"
+        data-main2="#ff8f00"
+        data-glow="rgba(255,193,7,.25)"
+    ></button>
+
+    <button
+        class="theme theme-blue"
+        data-main="#00b7ff"
+        data-main2="#0066ff"
+        data-glow="rgba(0,183,255,.25)"
+    ></button>
+
+    <button
+        class="theme theme-purple"
+        data-main="#a855f7"
+        data-main2="#7c3aed"
+        data-glow="rgba(168,85,247,.25)"
+    ></button>
+
+    <button
+        class="theme theme-pink"
+        data-main="#ff4fa3"
+        data-main2="#ff1493"
+        data-glow="rgba(255,79,163,.25)"
+    ></button>
+
+    <button
+        class="theme theme-green"
+        data-main="#22c55e"
+        data-main2="#16a34a"
+        data-glow="rgba(34,197,94,.25)"
+    ></button>
+
+    <button
+        class="theme theme-red"
+        data-main="#ff3b30"
+        data-main2="#d70015"
+        data-glow="rgba(255,59,48,.25)"
+    ></button>
+
+    <button
+        class="theme theme-cyan"
+        data-main="#00e5ff"
+        data-main2="#00a6c7"
+        data-glow="rgba(0,229,255,.25)"
+    ></button>
+
+    <button
+        class="theme theme-orange"
+        data-main="#ff7a00"
+        data-main2="#ff4500"
+        data-glow="rgba(255,122,0,.25)"
+    ></button>
+
+    <button
+        class="theme theme-white"
+        data-main="#ffffff"
+        data-main2="#aaaaaa"
+        data-glow="rgba(255,255,255,.25)"
+    ></button>
+
+</div>
+
+
 <script>
 
-const search = document.getElementById("search");
-const cards = document.querySelectorAll(".product-card");
-const buttons = document.querySelectorAll(".category-btn");
-const empty = document.getElementById("empty");
+/* =========================
+   ELEMENTS
+========================= */
 
-let currentCategory = "all";
+const search =
+    document.getElementById("search");
 
-let favorites = JSON.parse(
-    localStorage.getItem("oliviehFavorites") || "[]"
-);
+const cards =
+    document.querySelectorAll(".product-card");
 
-cards.forEach((card, index) => {
+const buttons =
+    document.querySelectorAll(".category-btn");
 
-    const favorite = card.querySelector(".favorite");
+const empty =
+    document.getElementById("empty");
 
-    if (favorites.includes(index)) {
-        favorite.classList.add("active");
-        favorite.textContent = "♥";
-    }
+const modal =
+    document.getElementById("modal");
 
-    favorite.addEventListener("click", function(event) {
+const modalTitle =
+    document.getElementById("modalTitle");
 
-        event.stopPropagation();
-
-        if (favorites.includes(index)) {
-
-            favorites = favorites.filter(function(i) {
-                return i !== index;
-            });
-
-            favorite.classList.remove("active");
-            favorite.textContent = "♡";
-
-        } else {
-
-            favorites.push(index);
-
-            favorite.classList.add("active");
-            favorite.textContent = "♥";
-        }
-
-        localStorage.setItem(
-            "oliviehFavorites",
-            JSON.stringify(favorites)
-        );
-
-        filterCards();
-    });
-});
-
-function filterCards() {
-
-    const query = search.value.trim().toLowerCase();
-
-    let visible = 0;
-
-    cards.forEach((card, index) => {
-
-        const title =
-            card.querySelector("h3").textContent.toLowerCase();
-
-        const matchesSearch =
-            title.includes(query);
-
-        let matchesCategory = true;
-
-        if (currentCategory === "favorites") {
-
-            matchesCategory =
-                favorites.includes(index);
-
-        } else if (currentCategory !== "all") {
-
-            matchesCategory =
-                card.dataset.category === currentCategory;
-        }
-
-        if (matchesSearch && matchesCategory) {
-
-            card.style.display = "block";
-            visible++;
-
-        } else {
-
-            card.style.display = "none";
-        }
-    });
-
-    empty.style.display =
-        visible === 0 ? "block" : "none";
-
-    observeCards();
-}
-
-search.addEventListener("input", filterCards);
-
-buttons.forEach(function(button) {
-
-    button.addEventListener("click", function() {
-
-        buttons.forEach(function(btn) {
-            btn.classList.remove("active");
-        });
-
-        button.classList.add("active");
-
-        currentCategory =
-            button.dataset.category;
-
-        filterCards();
-    });
-});
-
-const modal = document.getElementById("modal");
-const modalTitle = document.getElementById("modalTitle");
 const modalDescription =
     document.getElementById("modalDescription");
 
-cards.forEach(function(card) {
+const themeButton =
+    document.getElementById("themeButton");
 
-    card.addEventListener("click", function() {
+const themeMenu =
+    document.getElementById("themeMenu");
 
-        modalTitle.textContent =
-            card.querySelector("h3").textContent;
 
-        modalDescription.textContent =
-            card.querySelector("p").textContent;
+/* =========================
+   CATEGORY
+========================= */
 
-        modal.classList.add("show");
-    });
-});
+let currentCategory = "all";
 
-document.getElementById("closeModal")
-    .addEventListener("click", function() {
 
-        modal.classList.remove("show");
-    });
+/* =========================
+   FAVORITES
+========================= */
 
-modal.addEventListener("click", function(event) {
+let favorites =
+    JSON.parse(
+        localStorage.getItem(
+            "oliviehFavorites"
+        ) || "[]"
+    );
 
-    if (event.target === modal) {
-        modal.classList.remove("show");
+
+cards.forEach(function(card, index) {
+
+    const favorite =
+        card.querySelector(".favorite");
+
+
+    if (favorites.includes(index)) {
+
+        favorite.classList.add("active");
+
+        favorite.textContent = "♥";
+
     }
+
+
+    favorite.addEventListener(
+        "click",
+        function(event) {
+
+            event.stopPropagation();
+
+
+            if (favorites.includes(index)) {
+
+                favorites =
+                    favorites.filter(
+                        function(i) {
+                            return i !== index;
+                        }
+                    );
+
+                favorite.classList.remove(
+                    "active"
+                );
+
+                favorite.textContent = "♡";
+
+            } else {
+
+                favorites.push(index);
+
+                favorite.classList.add(
+                    "active"
+                );
+
+                favorite.textContent = "♥";
+
+            }
+
+
+            localStorage.setItem(
+                "oliviehFavorites",
+                JSON.stringify(favorites)
+            );
+
+
+            filterCards();
+
+        }
+    );
+
 });
+
+
+/* =========================
+   FILTER
+========================= */
+
+function filterCards() {
+
+    const query =
+        search.value
+            .trim()
+            .toLowerCase();
+
+
+    let visible = 0;
+
+
+    cards.forEach(
+        function(card, index) {
+
+            const title =
+                card
+                    .querySelector("h3")
+                    .textContent
+                    .toLowerCase();
+
+
+            const matchesSearch =
+                title.includes(query);
+
+
+            let matchesCategory = true;
+
+
+            if (
+                currentCategory ===
+                "favorites"
+            ) {
+
+                matchesCategory =
+                    favorites.includes(index);
+
+            }
+
+            else if (
+                currentCategory !==
+                "all"
+            ) {
+
+                matchesCategory =
+                    card.dataset.category ===
+                    currentCategory;
+
+            }
+
+
+            if (
+                matchesSearch &&
+                matchesCategory
+            ) {
+
+                card.style.display = "";
+
+                visible++;
+
+            }
+
+            else {
+
+                card.style.display = "none";
+
+            }
+
+        }
+    );
+
+
+    empty.style.display =
+        visible === 0
+            ? "block"
+            : "none";
+
+
+    observeCards();
+
+}
+
+
+/* SEARCH */
+
+search.addEventListener(
+    "input",
+    filterCards
+);
+
+
+/* =========================
+   CATEGORY BUTTONS
+========================= */
+
+buttons.forEach(
+    function(button) {
+
+        button.addEventListener(
+            "click",
+            function() {
+
+                buttons.forEach(
+                    function(btn) {
+
+                        btn.classList.remove(
+                            "active"
+                        );
+
+                    }
+                );
+
+
+                button.classList.add(
+                    "active"
+                );
+
+
+                currentCategory =
+                    button.dataset.category;
+
+
+                filterCards();
+
+            }
+        );
+
+    }
+);
+
+
+/* =========================
+   PRODUCT MODAL
+========================= */
+
+cards.forEach(
+    function(card) {
+
+        card.addEventListener(
+            "click",
+            function() {
+
+                modalTitle.textContent =
+                    card
+                        .querySelector("h3")
+                        .textContent;
+
+
+                modalDescription.textContent =
+                    card
+                        .querySelector("p")
+                        .textContent;
+
+
+                modal.classList.add(
+                    "show"
+                );
+
+            }
+        );
+
+    }
+);
+
+
+/* CLOSE MODAL */
+
+document
+    .getElementById("closeModal")
+    .addEventListener(
+        "click",
+        function() {
+
+            modal.classList.remove(
+                "show"
+            );
+
+        }
+    );
+
+
+/* CLICK OUTSIDE */
+
+modal.addEventListener(
+    "click",
+    function(event) {
+
+        if (
+            event.target === modal
+        ) {
+
+            modal.classList.remove(
+                "show"
+            );
+
+        }
+
+    }
+);
+
+
+/* =========================
+   CARD ANIMATION
+========================= */
+
+let observer =
+    new IntersectionObserver(
+        function(entries) {
+
+            entries.forEach(
+                function(entry) {
+
+                    if (
+                        entry.isIntersecting
+                    ) {
+
+                        entry.target.classList.add(
+                            "show"
+                        );
+
+                    }
+
+                }
+            );
+
+        },
+        {
+            threshold: .12
+        }
+    );
+
 
 function observeCards() {
 
-    const observer =
-        new IntersectionObserver(function(entries) {
+    cards.forEach(
+        function(card) {
 
-            entries.forEach(function(entry) {
+            if (
+                card.style.display !==
+                "none"
+            ) {
 
-                if (entry.isIntersecting) {
-                    entry.target.classList.add("show");
-                }
+                observer.observe(card);
 
-            });
+            }
 
-        }, {
-            threshold: 0.12
-        });
+        }
+    );
 
-    cards.forEach(function(card) {
+}
 
-        if (card.style.display !== "none") {
-            observer.observe(card);
+
+/* =========================
+   THEMES
+========================= */
+
+themeButton.addEventListener(
+    "click",
+    function(event) {
+
+        event.stopPropagation();
+
+        themeMenu.classList.toggle(
+            "show"
+        );
+
+    }
+);
+
+
+const themes =
+    document.querySelectorAll(
+        ".theme"
+    );
+
+
+themes.forEach(
+    function(theme) {
+
+        theme.addEventListener(
+            "click",
+            function() {
+
+                const main =
+                    theme.dataset.main;
+
+                const main2 =
+                    theme.dataset.main2;
+
+                const glow =
+                    theme.dataset.glow;
+
+
+                document.documentElement
+                    .style
+                    .setProperty(
+                        "--main",
+                        main
+                    );
+
+
+                document.documentElement
+                    .style
+                    .setProperty(
+                        "--main2",
+                        main2
+                    );
+
+
+                document.documentElement
+                    .style
+                    .setProperty(
+                        "--glow",
+                        glow
+                    );
+
+
+                localStorage.setItem(
+                    "oliviehTheme",
+                    JSON.stringify({
+                        main,
+                        main2,
+                        glow
+                    })
+                );
+
+
+                themeMenu.classList.remove(
+                    "show"
+                );
+
+            }
+        );
+
+    }
+);
+
+
+/* =========================
+   LOAD SAVED THEME
+========================= */
+
+const savedTheme =
+    JSON.parse(
+        localStorage.getItem(
+            "oliviehTheme"
+        )
+    );
+
+
+if (savedTheme) {
+
+    document.documentElement
+        .style
+        .setProperty(
+            "--main",
+            savedTheme.main
+        );
+
+    document.documentElement
+        .style
+        .setProperty(
+            "--main2",
+            savedTheme.main2
+        );
+
+    document.documentElement
+        .style
+        .setProperty(
+            "--glow",
+            savedTheme.glow
+        );
+
+}
+
+
+/* =========================
+   CLOSE THEME MENU
+========================= */
+
+document.addEventListener(
+    "click",
+    function(event) {
+
+        if (
+            !themeMenu.contains(event.target) &&
+            event.target !== themeButton
+        ) {
+
+            themeMenu.classList.remove(
+                "show"
+            );
+
         }
 
-    });
-}
+    }
+);
+
+
+/* START */
 
 observeCards();
 
